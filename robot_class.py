@@ -95,15 +95,13 @@ class robot:
         dist_x, dist_y = 0, 0
 
         for l_idx in range(self.num_landmarks):
-            dist_x, dist_y = r.landmarks[l_idx][0] - self.x, r.landmarks[l_idx][1] - self.y
+            dist_x, dist_y = self.landmarks[l_idx][0] - self.x, self.landmarks[l_idx][1] - self.y
 
             noise = self.rand() * self.measurement_noise
             dist_x, dist_y = dist_x + noise, dist_y + noise
-
-            if dist_x > self.measurement_range or dist_y > self.measurement_range:
-                raise ValueError("Failed to record")
             
-            measurements.append([l_idx, dist_x, dist_y])  
+            if not dist_x > self.measurement_range or dist_y > self.measurement_range:
+                measurements.append([l_idx, dist_x, dist_y])
         
         ## TODO: return the final, complete list of measurements
         return measurements
